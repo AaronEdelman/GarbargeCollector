@@ -7,13 +7,16 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GarbageCollector.Models;
+using System.Web.Security;
+using Microsoft.AspNet.Identity;
 
 namespace GarbageCollector.Controllers
 {
     public class CustomerController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        public ApplicationUserManager _userManager;
+        
         // GET: Customer
         public ActionResult Index()
         {
@@ -46,10 +49,11 @@ namespace GarbageCollector.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FirstName,LastName,Number,Street,City,State,Zip")] CustomerModels customerModels)
+        public ActionResult Create([Bind(Include = "UserId,FirstName,LastName,Number,Street,City,State,Zip")] CustomerModels customerModels)
         {
             if (ModelState.IsValid)
             {
+                customerModels.UserId = User.Identity.GetUserId();
                 db.CustomerModels.Add(customerModels);
                 db.SaveChanges();
                 return RedirectToAction("Index");

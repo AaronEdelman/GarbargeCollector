@@ -16,7 +16,7 @@ namespace GarbageCollector.Controllers
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+        public ApplicationUserManager _userManager;
         public ApplicationDbContext context;
 
         public AccountController()
