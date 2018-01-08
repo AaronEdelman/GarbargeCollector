@@ -199,6 +199,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PickupModelsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -207,6 +208,7 @@
     <Compile Include="Models\CustomerModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PickupModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -279,6 +281,11 @@
     <Content Include="Views\Customer\Address.cshtml" />
     <Content Include="Views\Customer\Pickup.cshtml" />
     <Content Include="Views\Customer\Bill.cshtml" />
+    <Content Include="Views\PickupModels\Create.cshtml" />
+    <Content Include="Views\PickupModels\Delete.cshtml" />
+    <Content Include="Views\PickupModels\Details.cshtml" />
+    <Content Include="Views\PickupModels\Edit.cshtml" />
+    <Content Include="Views\PickupModels\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

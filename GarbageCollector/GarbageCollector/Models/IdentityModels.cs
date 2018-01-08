@@ -31,5 +31,7 @@ namespace GarbageCollector.Models
         }
 
         public System.Data.Entity.DbSet<GarbageCollector.Models.CustomerModels> CustomerModels { get; set; }
+
+        public System.Data.Entity.DbSet<GarbageCollector.Models.PickupModels> PickupModels { get; set; }
     }
 }

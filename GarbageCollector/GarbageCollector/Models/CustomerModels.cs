@@ -9,7 +9,6 @@ namespace GarbageCollector.Models
 {
     public class CustomerModels
     {
-        //public int ID { get; set; }
         [Key]
         public string UserId { get; set; }
 

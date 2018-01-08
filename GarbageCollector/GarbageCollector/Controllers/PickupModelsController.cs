@@ -7,123 +7,115 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GarbageCollector.Models;
-using System.Web.Security;
-using Microsoft.AspNet.Identity;
 
 namespace GarbageCollector.Controllers
 {
-    public class CustomerController : Controller
+    public class PickupModelsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        public ApplicationUserManager _userManager;
-        
-        // GET: Customer
+
+        // GET: PickupModels
         public ActionResult Index()
         {
-            string id = User.Identity.GetUserId();
-            CustomerModels customerModels = db.CustomerModels.Find(id);
-            if (customerModels == null)
-            {
-                return View("Address");
-            }
-            else
-            {
-                return View(db.CustomerModels.ToList().Where(n => n.UserId == User.Identity.GetUserId()));
-            }
+            var pickupModels = db.PickupModels.Include(p => p.User);
+            return View(pickupModels.ToList());
         }
 
-        // GET: Customer/Details/5
+        // GET: PickupModels/Details/5
         public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CustomerModels customerModels = db.CustomerModels.Find(id);
-            if (customerModels == null)
+            PickupModels pickupModels = db.PickupModels.Find(id);
+            if (pickupModels == null)
             {
                 return HttpNotFound();
             }
-            return View(customerModels);
+            return View(pickupModels);
         }
 
-        // GET: Customer/Create
+        // GET: PickupModels/Create
         public ActionResult Create()
         {
+            ViewBag.UserId = new SelectList(db.CustomerModels, "UserId", "FirstName");
             return View();
         }
 
-        // POST: Customer/Create
+        // POST: PickupModels/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserId,FirstName,LastName,Number,Street,City,State,Zip")] CustomerModels customerModels)
+        public ActionResult Create([Bind(Include = "UserId,PickupDate")] PickupModels pickupModels)
         {
             if (ModelState.IsValid)
             {
-                customerModels.UserId = User.Identity.GetUserId();
-                db.CustomerModels.Add(customerModels);
+                db.PickupModels.Add(pickupModels);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(customerModels);
+            ViewBag.UserId = new SelectList(db.CustomerModels, "UserId", "FirstName", pickupModels.UserId);
+            return View(pickupModels);
         }
 
-        // GET: Customer/Edit/5
+        // GET: PickupModels/Edit/5
         public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CustomerModels customerModels = db.CustomerModels.Find(id);
-            if (customerModels == null)
+            PickupModels pickupModels = db.PickupModels.Find(id);
+            if (pickupModels == null)
             {
                 return HttpNotFound();
             }
-            return View(customerModels);
+            ViewBag.UserId = new SelectList(db.CustomerModels, "UserId", "FirstName", pickupModels.UserId);
+            return View(pickupModels);
         }
 
-        // POST: Customer/Edit/5
+        // POST: PickupModels/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FirstName,LastName,Number,Street,City,State,Zip")] CustomerModels customerModels)
+        public ActionResult Edit([Bind(Include = "UserId,PickupDate")] PickupModels pickupModels)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customerModels).State = EntityState.Modified;
+                db.Entry(pickupModels).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(customerModels);
+            ViewBag.UserId = new SelectList(db.CustomerModels, "UserId", "FirstName", pickupModels.UserId);
+            return View(pickupModels);
         }
 
-        // GET: Customer/Delete/5
-        public ActionResult Delete(int? id)
+        // GET: PickupModels/Delete/5
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CustomerModels customerModels = db.CustomerModels.Find(id);
-            if (customerModels == null)
+            PickupModels pickupModels = db.PickupModels.Find(id);
+            if (pickupModels == null)
             {
                 return HttpNotFound();
             }
-            return View(customerModels);
+            return View(pickupModels);
         }
 
-        // POST: Customer/Delete/5
+        // POST: PickupModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(string id)
         {
-            CustomerModels customerModels = db.CustomerModels.Find(id);
-            db.CustomerModels.Remove(customerModels);
+            PickupModels pickupModels = db.PickupModels.Find(id);
+            db.PickupModels.Remove(pickupModels);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -135,18 +127,6 @@ namespace GarbageCollector.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-        public ActionResult Address()
-        {
-            return View();
-        }
-        public ActionResult Pickup()
-        {
-            return View();
-        }
-        public ActionResult Bill()
-        {
-            return View();
         }
     }
 }
