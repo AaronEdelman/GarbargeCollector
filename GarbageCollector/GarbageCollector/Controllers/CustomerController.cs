@@ -103,7 +103,7 @@ namespace GarbageCollector.Controllers
         }
 
         // GET: Customer/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
