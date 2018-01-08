@@ -20,11 +20,20 @@ namespace GarbageCollector.Controllers
         // GET: Customer
         public ActionResult Index()
         {
-            return View(db.CustomerModels.ToList());
+            string id = User.Identity.GetUserId();
+            CustomerModels customerModels = db.CustomerModels.Find(id);
+            if (customerModels == null)
+            {
+                return View("Address");
+            }
+            else
+            {
+                return View(db.CustomerModels.ToList().Where(n => n.UserId == User.Identity.GetUserId()));
+            }
         }
 
         // GET: Customer/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
