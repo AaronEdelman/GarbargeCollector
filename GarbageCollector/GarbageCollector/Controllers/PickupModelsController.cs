@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GarbageCollector.Models;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Collections.Specialized;
 
 namespace GarbageCollector.Controllers
 {
@@ -22,7 +25,7 @@ namespace GarbageCollector.Controllers
         }
 
         // GET: PickupModels/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -62,7 +65,7 @@ namespace GarbageCollector.Controllers
         }
 
         // GET: PickupModels/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -82,7 +85,7 @@ namespace GarbageCollector.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserId,PickupDate")] PickupModels pickupModels)
+        public ActionResult Edit([Bind(Include = "ID,UserId,PickupDate")] PickupModels pickupModels)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +98,7 @@ namespace GarbageCollector.Controllers
         }
 
         // GET: PickupModels/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -112,7 +115,7 @@ namespace GarbageCollector.Controllers
         // POST: PickupModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int id)
         {
             PickupModels pickupModels = db.PickupModels.Find(id);
             db.PickupModels.Remove(pickupModels);
@@ -127,6 +130,14 @@ namespace GarbageCollector.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        // POST: PickupModels/PickupDay
+        [HttpPost]
+        public ActionResult PickupDay()
+        {
+            string day = Request.Form["PickupDate"];
+
+            return View(day);
         }
     }
 }

@@ -9,18 +9,24 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<div class="form-group">
-    @Html.Label("Pickup day", new { @class = "col-md-2 control-label" })
-    <div class="col-md-10">
-        @*@Html.DropDownList("Name")*@
-        @Html.DropDownList("Pickup day", new SelectList(Enum.GetValues(typeof(DayOfWeek))), "Select Pickup Day")
-    </div>
-</div>
+@using (Html.BeginForm("PickupDay", "PickupModels", FormMethod.Post))
+{
+
+    <fieldset>
+
+        Pickup Day
+
+        @Html.DropDownList("PickupDate", new SelectList(Enum.GetValues(typeof(DayOfWeek))), "Select Pickup Day")
+
+        <p>
+            <input type="submit" value="Submit" />
+
+        </p>
+
+    </fieldset>
+}
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.PickupDate)
         </th>
@@ -33,9 +39,9 @@
             @Html.DisplayFor(modelItem => item.PickupDate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UserId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UserId })
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID}) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
         </td>
     </tr>
 }

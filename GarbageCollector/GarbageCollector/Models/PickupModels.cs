@@ -4,12 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 
 namespace GarbageCollector.Models
 {
     public class PickupModels
     {
-        [Key]
+        public int ID { get; set; }
         public string UserId { get; set; }
 
         [ForeignKey("UserId")]
