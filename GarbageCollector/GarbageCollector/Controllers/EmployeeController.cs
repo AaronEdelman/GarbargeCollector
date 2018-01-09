@@ -25,9 +25,11 @@ namespace GarbageCollector.Controllers
         // GET: Employee
         public ActionResult Index()
         {
+            string zip = Request.Form["Zip"];
             var pickupModels = db.PickupModels.Include(p => p.User);
             return View(pickupModels.ToList()
-               .Where(n => n.PickupDate.ToString("yyyy-MM-dd") == DateTime.Now.ToString("yyyy-MM-dd")));
+               .Where(n => n.PickupDate.ToString("yyyy-MM-dd") == DateTime.Now.ToString("yyyy-MM-dd"))
+               .Where(n => n.User.Zip.ToString() == zip));
         }
 
         // GET: Employee/Details/5

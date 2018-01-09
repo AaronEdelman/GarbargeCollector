@@ -4,9 +4,24 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Today's Pickups</h2>
+<h1>Enter Zip to filter by your route</h1>
+    @using (Html.BeginForm("Index", "Employee"))
+    {
 
+        <fieldset>
 
+            Zip Code
+
+            @Html.TextBox("Zip")
+
+            <p>
+                <input type="submit" value="Submit" />
+
+            </p>
+
+        </fieldset>
+    }
 <table class="table">
     <tr>
         <th>
