@@ -10,6 +10,7 @@ using GarbageCollector.Models;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Collections.Specialized;
+using Microsoft.AspNet.Identity;
 
 namespace GarbageCollector.Controllers
 {
@@ -21,7 +22,7 @@ namespace GarbageCollector.Controllers
         public ActionResult Index()
         {
             var pickupModels = db.PickupModels.Include(p => p.User);
-            return View(pickupModels.ToList());
+            return View(pickupModels.ToList().Where(n => n.UserId == User.Identity.GetUserId()));
         }
 
         // GET: PickupModels/Details/5
@@ -133,10 +134,18 @@ namespace GarbageCollector.Controllers
         }
         // POST: PickupModels/PickupDay
         [HttpPost]
-        public ActionResult PickupDay()
+        public ActionResult PickupDay([Bind(Include = "UserId,PickupDate")] PickupModels pickupModels)
         {
             string day = Request.Form["PickupDate"];
-
+            PickupCalendar pickupCalendar = new PickupCalendar(day);
+            List<DateTime> pickupList = pickupCalendar.CreatePickupList();
+            foreach(DateTime date in pickupList)
+            {
+                pickupModels.UserId = User.Identity.GetUserId();
+                pickupModels.PickupDate = date;
+                db.PickupModels.Add(pickupModels);
+                db.SaveChanges();
+            }
             return View(day);
         }
     }
