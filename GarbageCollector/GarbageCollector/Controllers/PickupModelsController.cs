@@ -146,7 +146,7 @@ namespace GarbageCollector.Controllers
                 db.PickupModels.Add(pickupModels);
                 db.SaveChanges();
             }
-            return View(day);
+            return RedirectToAction("Index");
         }
     }
 }
